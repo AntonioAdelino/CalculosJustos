@@ -1,12 +1,8 @@
-<!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+@extends('templates.template')
 
-        <title>Inicio do projeto</title>
-    </head>
-    <body class="antialiased">
-       Teste
-    </body>
-</html>
+@section('conteudo')
+    <div class="jumbotron text-center">
+        <h1>Cálculos Justos</h1>
+        <h4>Sistema voltado a apuração de valores inerentes às contas do <br>Programa de Formação do Patrimônio do Servidor Público - PASEP.</h4>
+    </div>
+@endsection
