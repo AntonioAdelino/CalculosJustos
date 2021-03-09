@@ -15,7 +15,8 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    $codigos = [ 00, 01, 02, 03, 04];
+    return view('welcome', compact('codigos'));
 });
 
 Route::get('/usuario', 'UsuarioController@index')->name('usuario.index');
