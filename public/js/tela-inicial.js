@@ -3,6 +3,13 @@ const table = document.getElementById("calculos");
 const tbody = document.getElementById("corpo-tabela");
 const draggable = document.querySelectorAll(".draggable");
 let id = 1;
+let codigos = [...document.getElementById("codigos").options];
+
+let opcoes = '<select id="codigos" name="codigos" class="form-control">';
+codigos.forEach(cod =>{
+    opcoes += `<option>${cod.text}</option>`;
+})
+opcoes += '</select>';
 
 function adicionarLinha(botaoAdionar) {
     let celula = botaoAdionar.parentNode.parentNode;
@@ -14,22 +21,19 @@ function adicionarLinha(botaoAdionar) {
         <td><input type="text" id="extrato-${id}" name="extrato" class="form-control" required></td>
         <td><input type="text" id="data-${id}" name="data" class="form-control data" required></td>
         <td>
-            <select name="codigo" class="form-control">
-                <option>001</option>
-                <option>002</option>
-                <option>003</option>
-            </select>
+            ${opcoes}
         </td>
         <td><span>Aqui vai a descrição</span></td>
-        <td><span>Aqui vai a observação</span></td>
+        <td><input type="text" id="obsercavao-0" name="valor" class="form-control obsercavao"></td>
         <td><input type="text" id="dinheiro-${id}" name="valor" class="form-control dinheiro" required></td>
         <td><span>Aqui vai o saldo</span></td>
         <td style="text-align: center"><button type="button" onclick="adicionarLinha(this)">+</button></td>
         <td style="text-align: center"><button type="button" onclick="apagarLinha(this)">-</button></td>
     </tr>
     `;
-    //$(tr).insertAfter($(celula));
-    $(tbody).append(tr);
+    let element = $.parseHTML(tr);
+    adicionarListeners(element[1]);
+    tbody.appendChild(element[1]);
     $(`#data-${id}`).mask("00/00/0000");
     $(`#dinheiro-${id}`).mask("000.000.000.000.000,00", { reverse: true });
     $(`#extrato-${id}`).val(extratoAnterior);
@@ -62,8 +66,8 @@ tbody.addEventListener("dragover", (e) => {
     const proximoElemento = getDragAfterElement(tbody, e.clientY);
     const movendo = document.querySelector(".dragging");
     if (proximoElemento == null) {
-        //tbody.append(movendo);
-    } else {
+        tbody.appendChild(movendo);
+    }else {
         tbody.insertBefore(movendo, proximoElemento);
     }
 });

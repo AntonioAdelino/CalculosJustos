@@ -8,7 +8,6 @@
     <div class="card-body">
         <div class="row">
             <div class="container">
-                <!-- Estilo para preencher a tela td= col-m2-12 col-sm-12 -->
                 <form id="form" class="needs-validation">
                     <table id="calculos" class="table table-striped">
                         <thead>
@@ -21,18 +20,20 @@
                             <th>Saldo</th>
                         </thead>
                         <tbody id="corpo-tabela">
-                            <tr id="linha0" class="draggable" draggable="true">
+                            <tr id="linha-0" class="draggable" draggable="true">
                                 <td><input type="text" name="extrato" class="form-control" required></td>
                                 <td><input type="text" id="data-0" name="data" class="form-control data" required></td>
                                 <td>
-                                    <select name="codigo" class="form-control">
-                                        <option>001</option>
-                                        <option>002</option>
-                                        <option>003</option>
+                                    <select id="codigos" name="codigos" class="form-control">
+                                            @forelse($codigos as $codigo)
+                                                <option>{{ $codigo }}</option>
+                                            @empty
+                                                <option>ERRO NA SOLICITAÇÃO</option>
+                                            @endforelse
                                     </select>
                                 </td>
                                 <td><span>Aqui vai a descrição</span></td>
-                                <td><span>Aqui vai a observação</span></td>
+                                <td><input type="text" id="obsercavao-0" name="valor" class="form-control obsercavao"></td>
                                 <td><input type="text" id="dinheiro-0" name="valor" class="form-control dinheiro" required></td>
                                 <td><span>Aqui vai o saldo</span></td>
                                 <td style="text-align: center"><button type="button" onclick="adicionarLinha(this)">+</button></td>
