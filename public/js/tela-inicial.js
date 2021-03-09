@@ -1,15 +1,14 @@
 //Adicionar e remover linhas
-const table = document.getElementById("calculos");
-const tbody = document.getElementById("corpo-tabela");
-const draggable = document.querySelectorAll(".draggable");
+const table = document.getElementById('calculos');
+const tbody = document.getElementById('corpo-tabela');
+const draggable = document.querySelectorAll('.draggable');
 let id = 1;
-let codigos = [...document.getElementById("codigos").options];
+let codigos = [...document.getElementById('codigos-0').options];
 
-let opcoes = '<select id="codigos" name="codigos" class="form-control">';
+let opcoes = '';
 codigos.forEach(cod =>{
     opcoes += `<option>${cod.text}</option>`;
 })
-opcoes += '</select>';
 
 function adicionarLinha(botaoAdionar) {
     let celula = botaoAdionar.parentNode.parentNode;
@@ -21,9 +20,11 @@ function adicionarLinha(botaoAdionar) {
         <td><input type="text" id="extrato-${id}" name="extrato" class="form-control" required></td>
         <td><input type="text" id="data-${id}" name="data" class="form-control data" required></td>
         <td>
-            ${opcoes}
+            <select id="codigos-${id}" name="codigos" onchange="mudarDescricao(${id})" class="form-control">
+                ${opcoes}
+            </select>
         </td>
-        <td><span>Aqui vai a descrição</span></td>
+        <td><span id="descricao-${id}">Aqui vai a descrição</span></td>
         <td><input type="text" id="obsercavao-0" name="valor" class="form-control obsercavao"></td>
         <td><input type="text" id="dinheiro-${id}" name="valor" class="form-control dinheiro" required></td>
         <td><span>Aqui vai o saldo</span></td>
@@ -34,8 +35,8 @@ function adicionarLinha(botaoAdionar) {
     let element = $.parseHTML(tr);
     adicionarListeners(element[1]);
     tbody.appendChild(element[1]);
-    $(`#data-${id}`).mask("00/00/0000");
-    $(`#dinheiro-${id}`).mask("000.000.000.000.000,00", { reverse: true });
+    $(`#data-${id}`).mask('00/00/0000');
+    $(`#dinheiro-${id}`).mask('000.000.000.000.000,00', { reverse: true });
     $(`#extrato-${id}`).val(extratoAnterior);
 
     id++;
@@ -48,11 +49,11 @@ function apagarLinha(linha) {
 
 //Adiciona os listeners de movimento em uma linha.
 function adicionarListeners(linha) {
-    linha.addEventListener("dragstart", () => {
-        linha.classList.add("dragging");
+    linha.addEventListener('dragstart', () => {
+        linha.classList.add('dragging');
     });
-    linha.addEventListener("dragend", () => {
-        linha.classList.remove("dragging");
+    linha.addEventListener('dragend', () => {
+        linha.classList.remove('dragging');
     });
 }
 //Adiciona o listener de movimento em todas as linhas(é chamado no começo da execução).
@@ -61,10 +62,10 @@ draggable.forEach((movel) => {
 });
 
 //Captura e trata os movimentos das linhas
-tbody.addEventListener("dragover", (e) => {
+tbody.addEventListener('dragover', (e) => {
     e.preventDefault();
     const proximoElemento = getDragAfterElement(tbody, e.clientY);
-    const movendo = document.querySelector(".dragging");
+    const movendo = document.querySelector('.dragging');
     if (proximoElemento == null) {
         tbody.appendChild(movendo);
     }else {
@@ -77,7 +78,7 @@ function getDragAfterElement(container, y) {
     //Retorna uma lista com todos os elementos da classe ddraggable que não sejam da classe dragging.
     //Ou seja, que podem se mover, mas não estão em movimento.
     const draggableElements = [
-        ...container.querySelectorAll(".draggable:not(.dragging)"),
+        ...container.querySelectorAll('.draggable:not(.dragging)'),
     ];
     return draggableElements.reduce(
         (closest, child) => {
@@ -95,12 +96,17 @@ function getDragAfterElement(container, y) {
 
 //Configuração de máscaras
 function adicionarMascaras() {
-    $(".data").mask("00/00/0000");
-    $(".dinheiro").mask("000.000.000.000.000,00", { reverse: true });
+    $('.data').mask('00/00/0000');
+    $('.dinheiro').mask('000.000.000.000.000,00', { reverse: true });
 }
 
 adicionarMascaras();
 
-$("#form").submit(function (evt) {
+$('#form').submit(function (evt) {
     evt.preventDefault();
 });
+
+function mudarDescricao(id){
+    let codigo = document.getElementById(`codigos-${id}`).value
+    document.getElementById(`descricao-${id}`).innerHTML = `Descrição do Código ${codigo}`;
+}

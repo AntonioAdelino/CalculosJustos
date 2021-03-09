@@ -24,7 +24,7 @@
                                 <td><input type="text" name="extrato" class="form-control" required></td>
                                 <td><input type="text" id="data-0" name="data" class="form-control data" required></td>
                                 <td>
-                                    <select id="codigos" name="codigos" class="form-control">
+                                    <select id="codigos-0" name="codigos" onchange="mudarDescricao(0)" class="form-control">
                                             @forelse($codigos as $codigo)
                                                 <option>{{ $codigo }}</option>
                                             @empty
@@ -32,7 +32,7 @@
                                             @endforelse
                                     </select>
                                 </td>
-                                <td><span>Aqui vai a descrição</span></td>
+                                <td><span id="descricao-0">Aqui vai a descrição</span></td>
                                 <td><input type="text" id="obsercavao-0" name="valor" class="form-control obsercavao"></td>
                                 <td><input type="text" id="dinheiro-0" name="valor" class="form-control dinheiro" required></td>
                                 <td><span>Aqui vai o saldo</span></td>
